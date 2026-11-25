@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meridian Credit Union — Joint Share Overview</title>
+  <style>
+    :root {
+      --cu-dark: #071926;
+      --cu-navy: #0c273b;
+      --cu-teal: #0f766e;
+      --cu-teal-bright: #0d9488;
+      --slate-900: #0f172a;
+      --slate-700: #334155;
+      --slate-600: #475569;
+      --slate-500: #64748b;
+      --slate-200: #e2e8f0;
+      --slate-100: #f1f5f9;
+      --slate-50: #f8fafc;
+      --white: #ffffff;
+      --red-700: #b91c1c;
+      --red-600: #dc2626;
+      --red-100: #fee2e2;
+      --red-50: #fef2f2;
+      --green-700: #047857;
+      --green-600: #059669;
+      --green-50: #ecfdf5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background: #e3eceb;
+      color: var(--slate-900);
+      min-height: 100vh;
+    }
+
+    .top-bar {
+      background: var(--cu-dark);
+      color: #cbd5e1;
+      font-size: 0.72rem;
+      padding: 7px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      border-bottom: 1px solid #16384f;
+    }
+
+    .top-bar strong {
+      color: #ffffff;
+    }
+
+    .cu-header {
+      background: var(--cu-navy);
+      color: var(--white);
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      border-bottom: 3px solid var(--cu-teal-bright);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cu-badge {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      background: linear-gradient(145deg, var(--cu-teal), #0284c7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .cu-title {
+      font-size: 1.06rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .cu-sub {
+      font-size: 0.72rem;
+      color: #99f6e4;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .demo-pill {
+      background: #13344a;
+      color: #99f6e4;
+      border: 1px solid #1e5273;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 4px 9px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .btn {
+      border: 1px solid transparent;
+      border-radius: 6px;
+      padding: 9px 14px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-sm {
+      padding: 6px 11px;
+      font-size: 0.76rem;
+    }
+
+    .btn-signout {
+      background: transparent;
+      color: #e2e8f0;
+      border-color: #475569;
+    }
+
+    .btn-teal {
+      background: var(--cu-teal);
+      color: var(--white);
+    }
+
+    .btn-secondary {
+      background: var(--white);
+      color: var(--slate-900);
+      border-color: #cbd5e1;
+    }
+
+    .btn-dark {
+      background: var(--cu-navy);
+      color: var(--white);
+    }
+
+    .wrap {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 18px 16px 36px;
+    }
+
+    .alert-box {
+      background: var(--red-50);
+      border: 1px solid #fca5a5;
+      border-left: 5px solid var(--red-600);
+      color: var(--red-700);
+      border-radius: 8px;
+      padding: 13px 16px;
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      line-height: 1.45;
+    }
+
+    .alert-box.unblocked {
+      background: var(--green-50);
+      border-color: #6ee7b7;
+      border-left-color: var(--green-600);
+      color: var(--green-700);
+    }
+
+    .share-card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: 8px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(7, 25, 38, 0.06);
+    }
+
+    .share-head {
+      background: var(--cu-navy);
+      color: var(--white);
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .share-label {
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .tag-blocked {
+      background: var(--red-100);
+      color: var(--red-700);
+      border: 1px solid #f87171;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    .tag-active {
+      background: var(--green-50);
+      color: var(--green-700);
+      border: 1px solid #6ee7b7;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+    }
+
+    .share-body {
+      padding: 18px;
+    }
+
+    .members-line {
+      font-size: 0.9rem;
+      color: var(--slate-700);
+      margin-bottom: 6px;
+    }
+
+    .bal-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--slate-200);
+    }
+
+    .bal-num {
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--slate-900);
+      letter-spacing: -0.02em;
+    }
+
+    .bal-note {
+      font-size: 0.78rem;
+      color: var(--slate-500);
+    }
+
+    .acct-meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+      gap: 12px;
+      padding-top: 14px;
+    }
+
+    .meta-box span {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--slate-500);
+      margin-bottom: 3px;
+    }
+
+    .meta-box strong {
+      font-size: 0.85rem;
+      color: var(--slate-900);
+    }
+
+    .meta-box strong.blocked-red {
+      color: var(--red-700);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--slate-200);
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(7, 25, 38, 0.04);
+    }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--slate-100);
+    }
+
+    .card-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--slate-700);
+    }
+
+    .txn-drawer {
+      display: none;
+    }
+
+    .txn-drawer.open {
+      display: block;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--slate-600);
+      margin-bottom: 5px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 9px 11px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 0.88rem;
+      color: var(--slate-900);
+      background: var(--white);
+    }
+
+    .msg-line {
+      margin-top: 8px;
+      font-size: 0.84rem;
+      font-weight: 700;
+      color: var(--red-700);
+    }
+
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .summary-tile {
+      background: var(--slate-50);
+      border: 1px solid var(--slate-200);
+      border-radius: 6px;
+      padding: 12px;
+    }
+
+    .summary-tile .k {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--slate-500);
+      margin-bottom: 4px;
+    }
+
+    .summary-tile .v {
+      font-size: 0.86rem;
+      font-weight: 600;
+      color: var(--slate-900);
+    }
+
+    .filters {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .f-btn {
+      border: 1px solid #cbd5e1;
+      background: var(--slate-50);
+      color: var(--slate-700);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .f-btn.active {
+      background: var(--cu-navy);
+      color: var(--white);
+      border-color: var(--cu-navy);
+    }
+
+    .history-list {
+      list-style: none;
+    }
+
+    .history-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--slate-100);
+      gap: 12px;
+    }
+
+    .history-row:last-child {
+      border-bottom: none;
+    }
+
+    .item-title {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--slate-900);
+    }
+
+    .item-sub {
+      font-size: 0.74rem;
+      color: var(--slate-500);
+      margin-top: 2px;
+    }
+
+    .item-right {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .amt-in {
+      color: var(--green-600);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .amt-out {
+      color: var(--red-600);
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .badge-dir {
+      display: inline-block;
+      font-size: 0.66rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      margin-top: 3px;
+    }
+
+    .dir-in {
+      background: var(--green-50);
+      color: var(--green-700);
+    }
+
+    .dir-out {
+      background: var(--red-50);
+      color: var(--red-700);
+    }
+
+    .cu-footer {
+      background: var(--cu-dark);
+      color: #94a3b8;
+      font-size: 0.74rem;
+      padding: 16px 20px;
+      text-align: center;
+      border-top: 1px solid #16384f;
+    }
+
+    @media (max-width: 680px) {
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+      .bal-num {
+        font-size: 1.7rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <span>Meridian Credit Union • <strong>Member Share &amp; Draft Portal</strong></span>
+    <span>Member Session: <strong id="memberSessionName">Lena Baker &amp; Ligon Kelley</strong></span>
+  </div>
+
+  <header class="cu-header">
+    <div class="brand">
+      <div class="cu-badge">MC</div>
+      <div>
+        <div class="cu-title">MERIDIAN CREDIT UNION</div>
+        <div class="cu-sub">Member-Owned Financial Cooperative</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <span class="demo-pill">Simulated Demo</span>
+      <button class="btn btn-signout btn-sm" onclick="signOut()">Sign Out</button>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="alert-box" id="cuAlert">
+      <strong>ACCOUNT BLOCKED — UNABLE TO WITHDRAW OR TRANSFER:</strong> Share withdrawals and outbound transfers are currently blocked for joint members <strong>Lena Baker</strong> &amp; <strong>Ligon Kelley</strong>.
+    </div>
+
+    <section class="share-card">
+      <div class="share-head">
+        <span class="share-label">Joint Share Draft Account • Share #04</span>
+        <span class="tag-blocked" id="cuBadge">Blocked • Unable to Withdraw or Transfer</span>
+      </div>
+      <div class="share-body">
+        <div class="members-line">
+          Joint Members: <strong>Lena Baker</strong> &amp; <strong>Ligon Kelley</strong>
+        </div>
+        <div class="bal-row">
+          <div>
+            <div class="bal-num" id="shareBalText">$2,500,000.00</div>
+            <div class="bal-note">Share Balance (USD)</div>
+          </div>
+          <div class="bal-note">
+            Withdrawal / Transfer Status: <strong id="cuLimitText" style="color:#b91c1c;">Blocked — Unable to withdraw or transfer</strong>
+          </div>
+        </div>
+        <div class="acct-meta">
+          <div class="meta-box">
+            <span>Member Number</span>
+            <strong>MCU-884209</strong>
+          </div>
+          <div class="meta-box">
+            <span>CU Routing / Transit</span>
+            <strong>221078842</strong>
+          </div>
+          <div class="meta-box">
+            <span>Account Restriction</span>
+            <strong class="blocked-red" id="cuBlockCell">Blocked — Unable to withdraw or transfer</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="actions">
+      <button class="btn btn-teal" onclick="toggleTxnDrawer()">Transfer / Withdraw</button>
+      <button class="btn btn-secondary" onclick="toggleBlock()">Toggle Block (Demo)</button>
+      <button class="btn btn-secondary" onclick="toggleHideBal()">Hide / Show Balance</button>
+    </div>
+
+    <section class="card txn-drawer" id="txnDrawer">
+      <div class="card-top">
+        <span class="card-title">Member Transfer &amp; Withdrawal</span>
+      </div>
+      <div class="grid-3">
+        <div>
+          <label for="reqType">Request Type</label>
+          <select id="reqType">
+            <option value="transfer">Member / External Transfer</option>
+            <option value="withdraw">Share Withdrawal</option>
+          </select>
+        </div>
+        <div>
+          <label for="reqTarget">Payee / Credit Union / Branch</label>
+          <input type="text" id="reqTarget" placeholder="e.g., Harbor Co-op Clearing">
+        </div>
+        <div>
+          <label for="reqAmount">Amount (USD)</label>
+          <input type="number" id="reqAmount" placeholder="3500" min="1" step="0.01">
+        </div>
+      </div>
+      <button class="btn btn-dark" onclick="processRequest()">Submit Request</button>
+      <div class="msg-line" id="reqMsg"></div>
+    </section>
+
+    <section class="card">
+      <div class="card-top">
+        <span class="card-title">Membership &amp; Share Restriction Details</span>
+      </div>
+      <div class="summary-grid">
+        <div class="summary-tile">
+          <div class="k">Account Hold Status</div>
+          <div class="v" id="tileBlockStatus">Blocked — Unable to withdraw or transfer</div>
+        </div>
+        <div class="summary-tile">
+          <div class="k">Joint Account Holders</div>
+          <div class="v">Lena Baker &amp; Ligon Kelley</div>
+        </div>
+        <div class="summary-tile">
+          <div class="k">Share Class</div>
+          <div class="v">Joint Dividend Share Draft</div>
+        </div>
+        <div class="summary-tile">
+          <div class="k">Member Service Ref</div>
+          <div class="v">CU-HOLD-8842 (Simulated)</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-top">
+        <span class="card-title">Share Activity (Sent Out &amp; Received)</span>
+        <div class="filters">
+          <button class="f-btn active" id="btn-all" onclick="setView('all')">All</button>
+          <button class="f-btn" id="btn-in" onclick="setView('in')">Received</button>
+          <button class="f-btn" id="btn-out" onclick="setView('out')">Sent Out</button>
+        </div>
+      </div>
+      <ul class="history-list" id="historyList"></ul>
+    </section>
+  </main>
+
+  <footer class="cu-footer">
+    Meridian Credit Union Demo • Simulated Member Data for Preview Purposes Only
+  </footer>
+
+  <script>
+    if (sessionStorage.getItem("meridianAuth") !== "true") {
+      window.location.href = "login.html";
+    }
+
+    let shareBal = 2500000.00;
+    let hiddenBal = false;
+    let blocked = true;
+    let viewFilter = "all";
+
+    const loggedUser = sessionStorage.getItem("meridianDemoUser");
+    if (loggedUser) {
+      document.getElementById("memberSessionName").textContent = loggedUser;
+    }
+
+    const entries = [
+      { type: "in",  title: "Received Wire — Valley Co-op Supply",       sub: "Nov 24, 2026 • Fedwire #CU-90812",    amt: 78400.00 },
+      { type: "out", title: "Sent Out — Pinecrest Municipal Utilities",  sub: "Nov 23, 2026 • Share Draft #SD-5512", amt: 14200.00 },
+      { type: "in",  title: "Received Transfer — Ligon Kelley",          sub: "Nov 21, 2026 • Member Transfer #MT-412", amt: 56000.00 },
+      { type: "out", title: "Sent Out — Bayview Cooperative Fleet",      sub: "Nov 19, 2026 • ACH Debit #AC-88210",  amt: 21650.00 },
+      { type: "in",  title: "Received ACH — Heartland Grain & Feed",     sub: "Nov 17, 2026 • ACH Credit #AC-74190", amt: 49800.00 },
+      { type: "out", title: "Sent Out — Oakridge Property Co-op",        sub: "Nov 15, 2026 • Share Draft #SD-5488", amt: 26300.00 },
+      { type: "in",  title: "Received Transfer — Lena Baker",            sub: "Nov 12, 2026 • Member Transfer #MT-398", amt: 38500.00 },
+      { type: "out", title: "Sent Out — Cascade Cold Storage",           sub: "Nov 10, 2026 • Wire Out #WO-61044",   amt: 15900.00 },
+      { type: "in",  title: "Received Wire — Metro Credit Clearing",     sub: "Nov 07, 2026 • Fedwire #CU-90405",    amt: 88200.00 },
+      { type: "out", title: "Sent Out — Ridgeway Member Coverage",       sub: "Nov 04, 2026 • ACH Debit #AC-87654",  amt: 9450.00 }
+    ];
+
+    function fmtMoney(n) {
+      return "$" + n.toLocaleString("en-US", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      });
+    }
+
+    function paintBalance() {
+      document.getElementById("shareBalText").textContent =
+        hiddenBal ? "••••••••••••" : fmtMoney(shareBal);
+    }
+
+    function paintBlockStatus() {
+      const alertEl = document.getElementById("cuAlert");
+      const badgeEl = document.getElementById("cuBadge");
+      const cellEl = document.getElementById("cuBlockCell");
+      const limitEl = document.getElementById("cuLimitText");
+      const tileEl = document.getElementById("tileBlockStatus");
+
+      if (blocked) {
+        alertEl.className = "alert-box";
+        alertEl.innerHTML = "<strong>ACCOUNT BLOCKED — UNABLE TO WITHDRAW OR TRANSFER:</strong> Share withdrawals and outbound transfers are currently blocked for joint members <strong>Lena Baker</strong> &amp; <strong>Ligon Kelley</strong>.";
+        badgeEl.className = "tag-blocked";
+        badgeEl.textContent = "Blocked • Unable to Withdraw or Transfer";
+        cellEl.className = "blocked-red";
+        cellEl.textContent = "Blocked — Unable to withdraw or transfer";
+        limitEl.style.color = "#b91c1c";
+        limitEl.textContent = "Blocked — Unable to withdraw or transfer";
+        tileEl.textContent = "Blocked — Unable to withdraw or transfer";
+      } else {
+        alertEl.className = "alert-box unblocked";
+        alertEl.innerHTML = "<strong>DEMO UNBLOCKED:</strong> Simulated block lifted for this demo session.";
+        badgeEl.className = "tag-active";
+        badgeEl.textContent = "Active • Demo Preview";
+        cellEl.className = "";
+        cellEl.textContent = "Cleared (Demo Session)";
+        limitEl.style.color = "#047857";
+        limitEl.textContent = "Enabled (Demo Session)";
+        tileEl.textContent = "No active block in current demo session";
+      }
+    }
+
+    function paintHistory() {
+      const list = document.getElementById("historyList");
+      list.innerHTML = "";
+
+      const visible = entries.filter(item => {
+        if (viewFilter === "in") return item.type === "in";
+        if (viewFilter === "out") return item.type === "out";
+        return true;
+      });
+
+      visible.forEach(item => {
+        const isIn = item.type === "in";
+        const li = document.createElement("li");
+        li.className = "history-row";
+        li.innerHTML = `
+          <div>
+            <div class="item-title">${item.title}</div>
+            <div class="item-sub">${item.sub} • Sample</div>
+          </div>
+          <div class="item-right">
+            <div class="${isIn ? "amt-in" : "amt-out"}">${isIn ? "+" : "-"}${fmtMoney(item.amt)}</div>
+            <span class="badge-dir ${isIn ? "dir-in" : "dir-out"}">${isIn ? "RECEIVED" : "SENT OUT"}</span>
+          </div>
+        `;
+        list.appendChild(li);
+      });
+    }
+
+    function setView(v) {
+      viewFilter = v;
+      ["all", "in", "out"].forEach(id => {
+        document.getElementById("btn-" + id).classList.toggle("active", id === v);
+      });
+      paintHistory();
+    }
+
+    function toggleHideBal() {
+      hiddenBal = !hiddenBal;
+      paintBalance();
+    }
+
+    function toggleTxnDrawer() {
+      const drawer = document.getElementById("txnDrawer");
+      drawer.classList.toggle("open");
+      const msg = document.getElementById("reqMsg");
+      if (blocked && drawer.classList.contains("open")) {
+        msg.style.color = "#b91c1c";
+        msg.textContent = "Blocked — Unable to withdraw or transfer.";
+      } else {
+        msg.textContent = "";
+      }
+    }
+
+    function toggleBlock() {
+      blocked = !blocked;
+      paintBlockStatus();
+      document.getElementById("reqMsg").textContent = "";
+    }
+
+    function processRequest() {
+      const msg = document.getElementById("reqMsg");
+      if (blocked) {
+        msg.style.color = "#b91c1c";
+        msg.textContent = "Blocked — Unable to withdraw or transfer.";
+        return;
+      }
+
+      const mode = document.getElementById("reqType").value;
+      const target = document.getElementById("reqTarget").value.trim() || (mode === "withdraw" ? "Member Withdrawal" : "Transfer Recipient");
+      const amt = parseFloat(document.getElementById("reqAmount").value);
+
+      if (isNaN(amt) || amt <= 0) {
+        msg.style.color = "#b91c1c";
+        msg.textContent = "Enter a valid positive dollar amount.";
+        return;
+      }
+
+      if (amt > shareBal) {
+        msg.style.color = "#b91c1c";
+        msg.textContent = "Amount exceeds share balance.";
+        return;
+      }
+
+      shareBal -= amt;
+      paintBalance();
+      entries.unshift({
+        type: "out",
+        title: (mode === "withdraw" ? "Withdrawal — " : "Sent Out — ") + target,
+        sub: "Today • Demo Entry",
+        amt: amt
+      });
+      paintHistory();
+      document.getElementById("reqTarget").value = "";
+      document.getElementById("reqAmount").value = "";
+      msg.style.color = "#047857";
+      msg.textContent = "Simulated entry recorded.";
+    }
+
+    function signOut() {
+      sessionStorage.removeItem("meridianAuth");
+      sessionStorage.removeItem("meridianDemoUser");
+      window.location.href = "login.html";
+    }
+
+    paintBalance();
+    paintBlockStatus();
+    paintHistory();
+  </script>
+</body>
+</html>
